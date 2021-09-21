@@ -1,0 +1,162 @@
+﻿@model List<WebsiteBanHangOnline.Models.Product>
+@{ 
+    int stt = 1;
+}
+<!---page Title --->
+<section class="bg-img pt-150 pb-20" data-overlay="7" style="background-image: url(/Content/images/front-end-img/background/bg-8.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="page-title text-white">Shop</h2>
+                    <ol class="breadcrumb bg-transparent justify-content-center">
+                        <li class="breadcrumb-item"><a href="/" class="text-white-50"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Shop</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-50">
+    <div class="container">
+        <div class="row">
+            <!--Category Product-->
+            @{ Html.RenderAction("CategoryProduct", "ProductCategory");}
+            <div class="col-lg-9 col-md-8 col-12">
+                <div class="row align-items-center mb-30">
+                    <div class="col-6">
+                        <span>Showing 1–12 of 30 products</span>
+                    </div>
+                    <div class="col-6 text-right">
+                        <select class="form-control max-w-170 d-inline-block">
+                            <option data-display="Select">Nothing</option>
+                            <option value="1">Some option</option>
+                            <option value="2">Another option</option>
+                            <option value="3">An option</option>
+                            <option value="4">Potato</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row fx-element-overlay">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            var url = "/chi-tiet/" + item.MetaTitle + "-" + item.ID;
+                            <div class="col-12 col-xl-4 col-md-6">
+                                <div class="box box-default">
+                                    <div class="fx-card-item">
+                                        <div class="fx-card-avatar fx-overlay-1 mb-0">
+                                            <img id="imgAnh_@stt" src="@item.Image" alt="user">
+                                            <div class="fx-overlay scrl-up">
+                                                <ul class="fx-info">
+                                                    <li><a class="btn btn-outline image-popup-vertical-fit" href="@item.Image">Quick View</a></li>
+                                                    <li><a class="btn btn-outline details" href="@url">Chi tiết</a></li>
+                                                    <li><a id="txtAdd_@stt" class="btn btn-outline" onclick="Addcart(this.id)" @*href="/Cart/AddCart?ID=@item.ID&Name=@item.Name&PromotionPrice=@item.PromotionPrice&Image=@item.Image"*@>Thêm vào giỏ</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="fx-card-content text-left mb-0">
+                                            <div class="product-text">
+                                                <span id="txtID_@stt" class="hide">@item.ID</span>
+                                                <h4 class="box-title mb-0" id="Name_@stt">@item.Name</h4>
+                                                <p class="text-muted my-5">Lorem Ipsum Dummy Text</p>
+                                                <ul class="cours-star mb-5">
+                                                    <li class="active"><i class="fa fa-star"></i></li>
+                                                    <li class="active"><i class="fa fa-star"></i></li>
+                                                    <li class="active"><i class="fa fa-star"></i></li>
+                                                    <li class="active"><i class="fa fa-star"></i></li>
+                                                    <li class="active"><i class="fa fa-star"></i></li>
+                                                </ul>
+                                                <h4 class="pro-price text-blue">VND <span id="Sale_@stt">@item.PromotionPrice.Value.ToString("N0")</span><small class="ml-5"><del>VND @item.Price.Value.ToString("N0")</del></small></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            stt++;
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <div aria-label="Page navigation example">
+                                    <ul class="pagination mb-0 justify-content-center">
+                                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section JSfooter{
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.localStorage) {
+            Cart = JSON.parse(window.localStorage.getItem("giohang"));
+        }
+        var Total_Product = document.getElementById("txtTotal_Product");
+        Total_Product.innerHTML = Cart.length;
+        var cartBody2 = document.getElementById("cart-body-2");
+        Cart.map(item => {
+            var cost = parseInt(item.PromotionPrice.replaceAll(",", "")) * parseInt(item.Quantity);
+
+            cartBody2.innerHTML += `
+                                <li>
+                                    <img src="${item.Image}" alt="">
+                                    <h5 class="title">${item.Name} </h5>
+                                    <span class="qty">Quantity: ${item.Quantity}</span>
+                                    <span class="price-st">VND <br /> ${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span>
+                                    <a href="shop-cart" class="link"></a>
+                                </li>
+                                        `;
+        })
+
+    });
+    var Cart = [];
+    function Addcart(id) {
+        var idProduct = id.replace("txtAdd_", "");
+        var ID = document.getElementById("txtID_" + idProduct).innerHTML;
+        var Name = document.getElementById("Name_" + idProduct).innerHTML;
+        var Sale = document.getElementById("Sale_" + idProduct).innerHTML;
+        var Img = document.getElementById("imgAnh_" + idProduct).src;
+        alert(Img);
+        var Product = { Id: ID, Name: Name, PromotionPrice: Sale, Image: Img, Quantity: 1 };
+        if (window.localStorage) {
+            Cart = JSON.parse(window.localStorage.getItem("giohang"));
+        }
+        if (Cart != null && Cart.length > 0) {
+            var bResult = false;
+            for (i in Cart) {
+                if (Cart[i].Id == idProduct) {
+                    Cart[i].Quantity = Cart[i].Quantity + 1;
+                    bResult = true;
+                    break;
+                }
+            }
+            if (bResult == false) {
+                Cart.push(Product);
+            }
+        }
+        else {
+            Cart = [];
+            Cart.push(Product);
+        }
+        alert(JSON.stringify(Cart));
+        window.localStorage.setItem("giohang", JSON.stringify(Cart));
+        var x = JSON.parse(window.localStorage.getItem("giohang"));
+        document.getElementById("txtTotal_Product").innerHTML = x.length;
+    }
+</script>
+    }

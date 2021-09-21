@@ -1,0 +1,292 @@
+﻿@using WebsiteBanHangOnline.Models;
+@{
+    var user = (IEnumerable<User>)Session[CommonConstants.USER];
+    var role = (IEnumerable<Role>)Session[CommonConstants.ROLE];
+    var user_role = new List<User_Role>();
+    if (Session[CommonConstants.ROLE_USER] != null)
+    {
+        user_role = (List<User_Role>)Session[CommonConstants.ROLE_USER];
+    }
+}
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section header{
+    Phân quyền
+}
+@using (Html.BeginForm("Index", "User_Role", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-lg-12" style="margin-bottom:10px">
+                        <h4 class="header-title">Danh sách tài khoản</h4>
+                        <button type="button" onclick="CreateModal('@Url.Action("Create", "User_Role" )')" class="btn btn-pink waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-center">Thêm mới</button>
+                    </div>
+                       
+                    </div>
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Tên Tài Khoản</th>
+                                @foreach (var item in role)
+                                {
+                                    <th>@Html.DisplayFor(modelItem => item.RoleName)</th>
+
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (user != null)
+                            {
+                                foreach (var item in user)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Name) </td>
+                                        @foreach (var item1 in role)
+
+                                        {
+
+                                            var iCheck = false;
+                                            <td align="center">
+
+                                                @foreach (var item2 in user_role)
+                                                {
+                                                    if (item2.UserID == item.ID && item2.RoleID == item1.RoleID)
+                                                    {
+                                                        iCheck = true;
+                                                        break;
+                                                    }
+                                                }
+                                                @if (iCheck == true)
+                                                {
+                                                    <input type="checkbox" onchange="show(this.id)" id="chk_@item1.RoleID _@item.ID  " value="true" checked="checked" />
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" onchange="show(this.id)" name="name" id="chk_@item1.RoleID _@item.ID " value="false" />
+                                                }
+                                            </td>
+
+
+
+
+
+                                        }
+                                    </tr>
+
+
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="modal fade bs-example-modal-center" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" id="modelContent1" style="background-color:aqua">
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+    </div> <!-- end row -->
+}
+
+@section JsFooter{
+
+    <script>
+        function CreateModal(url) {
+            $('#modelContent1').load(url);
+            $('#myModal1').modal('show');
+        }
+    </script>
+    <script type="text/javascript">
+        function SetAlert(type, warningtext, idfocus) {
+            if (type == "success") {
+                Command: toastr["success"]("Success", warningtext)
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+            else if (type == "warning") {
+                Command: toastr["warning"](type, warningtext)
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+            }
+            else {
+                window.setTimeout(function () {
+                    toastr.options = ({
+                        heading: 'Thông báo',
+                        text: warningtext,
+                        position: 'top-right',
+                        loaderBg: '#dc4666',
+                        icon: 'danger',
+                        hideAfter: 3500,
+                        stack: 6
+                    });
+                }, 1000);
+            }
+
+            //$("#" + idfocus).focus();
+        }
+    </script>
+    <script>
+        function show(id) {
+            var chk = document.getElementById(id).checked;
+            var jsData = "{ID:'" + id + "', Choice:'" + chk + "'}";
+            $.ajax({
+                type: "POST",
+                url: "/User_Role/SaveData",
+                contentType: "application/json; charset=utf-8",
+                data: jsData,
+                dataType: "json",
+                success: function (chData) {
+                    if (chData == "OK") {
+                        alert(chData);
+                        SetAlert("success", "Ghi dữ liệu thành công", "");
+                    }
+                    else if (chData == "Fail") {
+                        alert(chData);
+                        SetAlert("warning", "Ghi dữ liệu thất bại", "");
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    @*<script type="text/javascript">
+            function SetAlert(type, waningtext, idfocus) {
+                if (type == "success") {
+                    window.setTimeout(function () {
+                        $.toast({
+                            heading: 'Cảnh báo',
+                            text: waningtext,
+                            postion: 'top-right',
+                            loaderBg: '#dc4666',
+                            icon: 'danger',
+                            hideAfter: 3500,
+                            stack: 6
+                        });
+                    }, 1000);
+                }
+                $("#" + idfocus).focus();
+            }
+        </script>*@
+
+}
+@*<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Phân quyền người dùng -Quyền</h4>
+                <button type="button" onclick="CreateModal('@Url.Action("Create", "User_Role" )')" class="btn btn-pink waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-center">Thêm mới</button>
+                <br />
+                <div class="table-responsive m-t-40">
+                    <table id="myTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tên Tài Khoản</th>
+                                @foreach (var item in role)
+                                {
+                                    <th>@Html.DisplayFor(modelItem => item.RoleName)</th>
+
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (user != null)
+                            {
+                                foreach (var item in user)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Name) </td>
+                                        @foreach (var item1 in role)
+
+                                        {
+
+                                            var iCheck = false;
+                                            <td align="center">
+
+                                                @foreach (var item2 in user_role)
+                                                {
+                                                    if (item2.UserID == item.ID && item2.RoleID == item1.RoleID)
+                                                    {
+                                                        iCheck = true;
+                                                        break;
+                                                    }
+                                                }
+                                                @if (iCheck == true)
+                                                {
+                                                    <input type="checkbox" onchange="show(this.id)" id="chk_@item1.RoleID _@item.ID  " value="true" checked="checked" />
+
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" onchange="show(this.id)" name="name" id="chk_@item1.RoleID _@item.ID " value="false" />
+                                                }
+                                            </td>
+
+
+
+
+
+                                        }
+                                    </tr>
+
+
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                    <div class="modal fade bs-example-modal-center" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myCenterModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" id="modelContent1" style="background-color:aqua">
+
+                            </div>
+                        </div>
+                    </div
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>*@

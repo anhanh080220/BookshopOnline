@@ -1,0 +1,99 @@
+﻿@model IEnumerable<WebsiteBanHangOnline.Models.Role>
+
+@{
+    ViewBag.Title = "Danh sách quyền";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    Danh sách quyền tài khoản
+}
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" })
+</p>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <h4 class="header-title">Danh sách tài khoản</h4>
+
+            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên quyền
+                        </th>
+                        <th>
+                            Ngày tạo
+                        </th>
+                        <th>
+                            Mô tả
+                        </th>
+                        <th>
+                            Người tạo
+                        </th>
+                        <th>
+                            Người sửa
+                        </th>
+                        <th>
+                            Ngày sửa
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                        <th>Tùy chọn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RoleName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifiedBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifiedDate)
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.Status)*@
+                                @if (item.Status == 1)
+                                {
+                                    <p>Hoạt động</p>
+                                }
+                                else
+                                {
+                                    <p>Khóa</p>
+                                }
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.RoleID }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.RoleID }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" }) |
+                                @*@Html.ActionLink("Delete", "Delete", new { id = item.RoleID }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" })|*@
+                                @Ajax.ActionLink("Delete", "Delete", new { id = item.RoleID },new AjaxOptions {
+                               Confirm = "Bạn có muốn xóa bản ghi này",
+                               OnComplete = "$('#row_" + @item.RoleID + "').remove()",
+                               HttpMethod = "Delete"
+
+                           } ,new { @class = "btn btn-primary btn-rounded waves-effect waves-light" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->

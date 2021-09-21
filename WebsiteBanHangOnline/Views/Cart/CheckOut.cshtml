@@ -1,0 +1,345 @@
+﻿@model WebsiteBanHangOnline.Models.Order
+@{
+    var user = (WebsiteBanHangOnline.Models.User)Session[WebsiteBanHangOnline.Models.CommonConstants.ACCOUNT_SESSION];
+}
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!---page Title --->
+<section class="bg-img pt-150 pb-20" data-overlay="7" style="background-image: url(/Content/images/front-end-img/background/bg-8.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="page-title text-white">Checkout</h2>
+                    <ol class="breadcrumb bg-transparent justify-content-center">
+                        <li class="breadcrumb-item"><a href="#" class="text-white-50"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Checkout</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Page content -->
+
+<section class="py-50">
+    <div class="container">
+        @if (@user == null)
+        {
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">Existing customer.</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="input-group mb-15">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" id="txtUserName" class="form-control pl-15 bg-transparent" placeholder="Username">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-15">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text  bg-transparent"><i class="ti-lock"></i></span>
+                                    </div>
+                                    <input type="password" id="txtPassword" class="form-control pl-15 bg-transparent" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="checkbox ml-5">
+                                        <input type="checkbox" id="basic_checkbox_1">
+                                        <label for="basic_checkbox_1">Remember Me</label>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-6">
+                                    <div class="fog-pwd text-right">
+                                        <a href="javascript:void(0)" class="hover-warning"><i class="ion ion-locked"></i> Forgot pwd?</a><br>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-info btn-block mt-15">Log In</button>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">New customer?</h4>
+                        </div>
+                        <div class="box-body">
+                            <button class="btn btn-primary">Check out as a guest</button>
+                            <button class="btn btn-success">Create an account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            @using (Html.BeginForm("CheckOut", "Cart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col-md-12 col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">Shipping Address</h4>
+                        </div>
+                        <div class="box-body pb-0">
+                                <div class="form-row">
+                                    <div class="form-field mb-15 col-md-12 col-12">
+                                        @*<input type="text" id="txtShipName" class="form-control pl-15 bg-transparent" placeholder="Tên người nhận">*@
+                                        @Html.EditorFor(model => model.ShipName, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên người nhận" } })
+                                        @Html.ValidationMessageFor(model => model.ShipName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-field mb-15">
+                                    @*<input type="text" id="txtSDT" class="form-control pl-15 bg-transparent" placeholder="Số điện thoại">*@
+                                    @Html.EditorFor(model => model.ShipMobile, new { htmlAttributes = new { @class = "form-control", placeholder = "SĐT người nhận" } })
+                                    @Html.ValidationMessageFor(model => model.ShipMobile, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-field mb-15">
+                                    @Html.EditorFor(model => model.ShipEmail, new { htmlAttributes = new { @class = "form-control" , placeholder = "Email người nhận" } })
+                                    @Html.ValidationMessageFor(model => model.ShipEmail, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-field mb-15">
+                                    @Html.EditorFor(model => model.ShipAddress, new { htmlAttributes = new { @class = "form-control" , placeholder = "Địa chỉ người nhận" } })
+                                    @Html.ValidationMessageFor(model => model.ShipAddress, "", new { @class = "text-danger" })
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">Product Summary</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Photo</th>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th class="w-200">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cart-body-1"></tbody>
+                                </table>
+                            </div>
+
+                            <hr>
+                            <h4 class="box-title mb-15">Save Card</h4>
+                            <div class="row">
+                                <!-- col -->
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="box bg-gradient-primary box-inverse">
+                                        <div class="box-body">
+                                            <h1 class="mt-0"><i class="fa fa-cc-visa"></i></h1>
+                                            <h3>**** **** **** 7009</h3>
+                                            <span class="pull-right">Exp date: 12/21</span>
+                                            <span class="font-500">Daniel Doe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /col -->
+                                <!-- col -->
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="box bg-gradient-info box-inverse">
+                                        <div class="box-body">
+                                            <h1 class="mt-0"><i class="fa fa-cc-mastercard"></i></h1>
+                                            <h3>**** **** **** 4125</h3>
+                                            <span class="pull-right">Exp date: 12/21</span>
+                                            <span class="font-500">Ethan Doe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /col -->
+                                <!-- col -->
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="box bg-gradient-warning box-inverse">
+                                        <div class="box-body">
+                                            <h1 class="mt-0"><i class="fa fa-cc-discover"></i></h1>
+                                            <h3>**** **** **** 5124</h3>
+                                            <span class="pull-right">Exp date: 12/21</span>
+                                            <span class="font-500">Jayden Doe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /col -->
+                                <!-- col -->
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="box bg-gradient-danger box-inverse">
+                                        <div class="box-body">
+                                            <h1 class="mt-0"><i class="fa fa-cc-amex"></i></h1>
+                                            <h3>**** **** **** 9578</h3>
+                                            <span class="pull-right">Exp date: 12/21</span>
+                                            <span class="font-500">William Doe</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /col -->
+                            </div>
+                            <hr>
+                            <h4 class="box-title mb-15">Choose payment Option</h4>
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#debit-card" role="tab"><span class="hidden-sm-up"><i class="fa fa-cc"></i></span> <span class="hidden-xs-down">Debit Card</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#paypal" role="tab"><span class="hidden-sm-up"><i class="fa fa-paypal"></i></span> <span class="hidden-xs-down">Paypal</span></a> </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content tabcontent-border">
+                                <div class="tab-pane active" id="debit-card" role="tabpanel">
+                                    <div class="p-30">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">CARD NUMBER</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="fa fa-credit-card"></i></div>
+                                                        <input type="text" class="form-control" id="exampleInputuname" placeholder="Card Number">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <div class="form-group">
+                                                            <label>EXPIRATION DATE</label>
+                                                            <input type="text" class="form-control" name="Expiry" placeholder="MM / YY" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5 pull-right">
+                                                        <div class="form-group">
+                                                            <label>CV CODE</label>
+                                                            <input type="text" class="form-control" name="CVC" placeholder="CVC" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>NAME OF CARD</label>
+                                                            <input type="text" class="form-control" name="nameCard" placeholder="NAME AND SURNAME">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-success">Make Payment</button>
+                                            </div>
+                                            <div class="col-lg-5 col-md-6 col-12">
+                                                <h3 class="box-title mt-10">General Info</h3>
+                                                <h2>
+                                                    <i class="fa fa-cc-visa text-info"></i>
+                                                    <i class="fa fa-cc-mastercard text-danger"></i>
+                                                    <i class="fa fa-cc-discover text-success"></i>
+                                                    <i class="fa fa-cc-amex text-warning"></i>
+                                                </h2>
+                                                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock.</p>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.  </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="paypal" role="tabpanel">
+                                    <div class="p-30">
+                                        You can pay your money through paypal, for more info <a href="#">click here</a><br><br>
+                                        <button class="btn btn-primary"><i class="fa fa-cc-paypal"></i> Pay with Paypal</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@section JSfooter{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            var cartBody1 = document.getElementById("cart-body-1");
+            var Total_Money = document.getElementById("txtTotalMoney");
+            var totalCost = 0;
+            Cart.map(item => {
+
+                var cost = parseInt(item.PromotionPrice.replaceAll(",", "")) * parseInt(item.Quantity);
+                totalCost += cost;
+                cartBody1.innerHTML += `
+                                        <tr>
+                                            <td><img src="${item.Image}" alt="" width="80"></td>
+                                            <td>${item.Name}</td>
+                                            <td>${item.Quantity}</td>
+                                            <td>${item.PromotionPrice}</td>
+                                        </tr>
+                                            `;
+
+            });
+            cartBody1.innerHTML += `       <tr>
+                                        <th colspan="3" class="text-right">Total</th>
+                                        <th>${totalCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="right">Coupan Discount</td>
+                                        <td>$1620</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="right">Delivery Charges</td>
+                                        <td>$50</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="right">Tax</td>
+                                        <td>$18</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3" class="text-right font-size-24 font-weight-700">Payable Amount</th>
+                                        <th class="font-size-24 font-weight-700">$1678</th>
+                                    </tr>
+    `;
+
+
+        });
+
+        @*function MakePay() {
+            var ShipName = document.getElementById("txtShipName").value;
+            var SDT = document.getElementById("txtSDT").value;
+            var Email = document.getElementById("txtEmail").value;
+            var DiaChi = document.getElementById("txtDiaChi").value;
+            var jsData = { ShipName: "", ShipMobile: "", ShipAddress: "", ShipEmail: "" };
+            jsData.ShipName = ShipAddress;
+            jsData.ShipMobile = SDT;
+            jsData.ShipAddress = DiaChi;
+            jsData.ShipEmail = Email;
+            alert(jsData);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Checkout", "Cart")',
+                contentType: "application/json; charset=utf-8",
+                data: jsData,
+                dataType: "json",
+                success: function (chData) {
+                    if (chData == true) {
+                        SetAlert("success", "Ghi dữ liệu thành công", "");
+                    }
+                    else if (chData == false) {
+                        SetAlert("warning", "Ghi dữ liệu thất bại", "");
+                    }
+                }
+            });
+        }*@
+
+    </script>
+}

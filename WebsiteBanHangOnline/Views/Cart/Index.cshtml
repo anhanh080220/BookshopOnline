@@ -1,0 +1,445 @@
+﻿@model List<WebsiteBanHangOnline.Models.CartItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int stt = 1;
+}
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+                alert(JSON.stringify(Cart));
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Cart/Index",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(Cart),
+                dataType: "json",
+                success: function (chData) {
+                    if (chData == true) {
+                        alert("success", "Ghi dữ liệu thành công", "");
+                    }
+                    else if (chData == false) {
+                        alert("warning", "Ghi dữ liệu thất bại", "");
+                    }
+                }
+            });
+        });
+    </script>*@
+<!---page Title --->
+<section class="bg-img pt-150 pb-20" data-overlay="7" style="background-image: url(/Content/images/front-end-img/background/bg-8.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="page-title text-white">Cart</h2>
+                    <ol class="breadcrumb bg-transparent justify-content-center">
+                        <li class="breadcrumb-item"><a href="/" class="text-white-50"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Cart</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Page content -->
+
+<section class="py-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header bg-primary">
+                        <h4 class="box-title"><strong>Giỏ Hàng Của Bạn (<span id="txtCartTotal">@Session["Total"]</span> ITEMS)</strong></h4>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table class="table product-overview">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product info</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th style="text-align:center">Total</th>
+                                        <th style="text-align:center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-body-1">
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            var tien = item.Quantity * item.PromotionPrice;
+                                            <tr>
+                                                <td class="hide" id="txtID_@stt">@item.Id</td>
+                                                <td><img src="@item.ImageUrl" alt="" width="80"></td>
+                                                <td>
+                                                    <h5 id="txtName_@stt">@item.Name</h5>
+                                                    <p>Lorem Ipsum available the majority have suffered alteration in some.</p>
+                                                </td>
+                                                <td><span id="txtPrice_@stt">@item.PromotionPrice.ToString("N0")</span></td>
+                                                <td width="70">
+                                                    <input type="number" id="txtQuantity_@stt" onkeyup="Cost(this.id)" onchange="TinhToan(this.id)" class="form-control" placeholder="1" min="0" value="@item.Quantity">
+                                                </td>
+                                                <td width="100" align="center" class="font-weight-900"><span id="txtCost_@stt">@tien.ToString("N0")</span></td>
+                                                <td align="center"><a href="javascript:void(0)" class="btn btn-circle btn-danger btn-xs" title="" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a></td>
+
+                                            </tr>
+                                            stt++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <button class="btn btn-success pull-right" onclick="checkout()"><i class="fa fa fa-shopping-cart"></i> Checkout</button>
+                            <a class="btn btn-info" href="/san-pham"><i class="fa fa-arrow-left"></i> Continue shopping</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="box">
+                    <div class="box-header bg-success">
+                        <h4 class="box-title"><strong>Discount</strong></h4>
+                    </div>
+                    <div class="box-body">
+                        <p>If you have any discount vouchers/coupans, apply here.<br> If you don't have any, click <a href="javascript:void(0);" class="text-link">here</a> to get one.</p>
+                        <form class="form-inline mt-20">
+                            <div class="input-group w-p100">
+                                <input type="text" class="form-control">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-danger">Apply</button>
+                                </div>
+                                <!-- /btn-group -->
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header bg-dark">
+                        <h4 class="box-title"><strong>Support</strong></h4>
+                    </div>
+
+                    <div class="box-body">
+                        <h4 class="font-weight-800"><i class="ti-mobile"></i> +1800 123 1234 <span class="text-info">(Toll Free)</span></h4>
+                        <p>Contact us for any queries. We are avalible 24x7x365.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="box">
+                    <div class="box-header bg-info">
+                        <h4 class="box-title"><strong>Cart Summary</strong></h4>
+                    </div>
+
+                    <div class="box-body py-0">
+                        <div class="table-responsive">
+                            <table class="table simple mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td class="text-right font-weight-700">VND <span id="txtTotalMoney">@Session["TotalCost"]</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Coupan Discount</td>
+                                        <td class="text-right font-weight-700"><span class="text-danger mr-15">50%</span>-$1620</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Charges</td>
+                                        <td class="text-right font-weight-700">$50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tax</td>
+                                        <td class="text-right font-weight-700">$18</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bt-1">Payable Amount</th>
+                                        <th class="bt-1 text-right font-weight-900 font-size-18">$1688</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-danger">Cancel Order</button>
+                        <button class="btn btn-primary pull-right">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section JSfooter{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            var TotalCart = document.getElementById("txtCartTotal");
+            TotalCart.innerHTML = Cart.length
+            var cartBody1 = document.getElementById("cart-body-1");
+            var Total_Product = document.getElementById("txtTotal_Product");
+            var Total_Money = document.getElementById("txtTotalMoney");
+            var totalCost = 0;
+            Total_Product.innerHTML = Cart.length;
+            Cart.map(item => {
+
+                var cost = parseInt(item.PromotionPrice.replaceAll(",", "")) * parseInt(item.Quantity);
+                totalCost += cost;
+                cartBody1.innerHTML += `
+                                                        <tr>
+                                                            <td class="hide" id="txtID_${item.Id}">${item.Id}</td>
+                                                            <td><img src="${item.Image}" alt="" width="80"></td>
+                                                            <td>
+                                                                <h5 id="txtName_${item.Id}">${item.Name}</h5>
+                                                                <p>Lorem Ipsum available the majority have suffered alteration in some.</p>
+                                                            </td>
+                                                            <td><span id="txtPrice_${item.Id}">${item.PromotionPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></td>
+                                                            <td width="70">
+                                                                <input type="number" id="txtQuantity_${item.Id}" onkeyup="Cost(this.id)" onchange="TinhToan(this.id)" class="form-control" placeholder="1" min="0" value="${item.Quantity}">
+                                                            </td>
+                                                            <td width="100" align="center" class="font-weight-900"><span id="txtCost_${item.Id}">${cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</span></td>
+                                                            <td align="center"><a id="DeleteProduct_${item.Id}" onclick ="DeleteProduct(this.id)" class="btn btn-circle btn-danger btn-xs" title="" data-toggle="tooltip" data-original-title="Delete"><i class="ti-trash"></i></a></td>
+
+                                                        </tr>
+
+                                                    `;
+
+            })
+            Total_Money.innerHTML = totalCost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        });
+    </script>
+    <script type="text/javascript">
+        function TinhToan(id) {
+            //tính tiền từng item
+            var idProduct = id.replace("txtQuantity_", "");
+            var Quantity = document.getElementById("txtQuantity_" + idProduct);
+            var Price = document.getElementById("txtPrice_" + idProduct).innerHTML.replaceAll(",", "");
+            var Total = document.getElementById("txtCost_" + idProduct);
+            var Cost = parseInt(Price) * Quantity.value;
+            Total.innerHTML = Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            //cập nhật số lượng
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            if (Cart != null && Cart.length > 0) {
+                for (i in Cart) {
+                    if (Cart[i].Id == idProduct) {
+                        Cart[i].Quantity = Quantity.value;
+                        break;
+                    }
+                }
+            }
+            window.localStorage.setItem("giohang", JSON.stringify(Cart));
+            //tính tổng tiền
+            var TotalValue = 0;
+            for (i in Cart) {
+                TotalValue = (TotalValue + parseInt(Cart[i].Quantity) * parseInt(Cart[i].PromotionPrice.replaceAll(",", "")));
+            }
+            var TotalCart = document.getElementById("txtCartTotal");
+            TotalCart.innerHTML = Cart.length;
+            var TotalMoney = document.getElementById("txtTotalMoney");
+            TotalMoney.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            var TotalCost = document.getElementById("txtTotalCost");
+            TotalCost.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            var MiniQuantity = document.getElementById("txtMiniQuantity_" + idProduct);
+            MiniQuantity.innerHTML = Quantity.value
+
+        }
+
+        function Cost(id) {
+            //tính tiền từng item
+            var idProduct = id.replace("txtQuantity_", "");
+            var soluong = document.getElementById("txtQuantity_" + idProduct).value;
+            var dongia = document.getElementById("txtPrice_" + idProduct).innerHTML.replaceAll(",", "");
+            var total = document.getElementById("txtCost_" + idProduct);
+            var Cost = parseInt(dongia) * soluong;
+            total.innerHTML = Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            Total();
+
+        }
+
+        function Total() {
+            //cập nhật số lượng
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            if (Cart != null && Cart.length > 0) {
+                for (i in Cart) {
+                    if (Cart[i].Id == idProduct) {
+                        Cart[i].Quantity = Quantity.value;
+                        break;
+                    }
+                }
+            }
+            window.localStorage.setItem("giohang", JSON.stringify(Cart));
+            //tính tổng tiền
+            var TotalValue = 0;
+            for (i in Cart) {
+                TotalValue = (TotalValue + parseInt(Cart[i].Quantity) * parseInt(Cart[i].PromotionPrice.replaceAll(",", "")));
+            }
+            var TotalCart = document.getElementById("txtCartTotal");
+            TotalCart.innerHTML = Cart.length;
+            var TotalMoney = document.getElementById("txtTotalMoney");
+            TotalMoney.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            var TotalCost = document.getElementById("txtTotalCost");
+            TotalCost.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            var MiniQuantity = document.getElementById("txtMiniQuantity");
+            MiniQuantity.innerHTML = Quantity.value
+        }
+
+        function DeleteProduct(id) {
+            var idProduct = id.replace("DeleteProduct_", "");
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            if (Cart != null && Cart.length > 0) {
+                var index = Cart.findIndex(x => x.Id == idProduct);
+                if (index !== undefined && index !== -1) {
+                    Cart.splice(index, 1);
+                    window.localStorage.setItem("giohang", JSON.stringify(Cart));
+                }
+            }
+            var TotalCart = document.getElementById("txtCartTotal");
+            TotalCart.innerHTML = Cart.length;
+            window.location = "/shop-cart";
+
+        }
+    </script>
+    <script type="text/javascript">
+        function checkout() {
+            if (window.localStorage) {
+                Cart = JSON.parse(window.localStorage.getItem("giohang"));
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetAll", "Cart")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(Cart),
+                dataType: "json",
+                success: function (chData) {
+                    if (chData == true) {
+                        window.location = "/checkout";
+                    }
+                    else if (chData == false) {
+                        SetAlert("warning", "Ghi dữ liệu thất bại", "");
+                    }
+                }
+            });
+        }
+    </script>
+    @*<script type="text/javascript">
+            function TinhToan(id) {
+                var idProduct = id.replace("txtQuantity_", "");
+                var Quantity = document.getElementById("txtQuantity_" + idProduct);
+                var Price = document.getElementById("txtPrice_" + idProduct).innerHTML.replaceAll(",", "");
+                var Total = document.getElementById("txtCost_" + idProduct);
+                var Cost = parseInt(Price) * Quantity.value;
+                var ID = document.getElementById("txtID_" + idProduct).innerHTML;
+                var jsData = "{ID: '" + ID + "', Quantity: '" + Quantity.value + "'}";
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/UpdateProduct",
+                    contentType: "application/json; charset=utf-8",
+                    data: jsData,
+                    dataType: "json",
+                    success: function (chData) {
+                        if (chData == true) {
+                            SetAlert("success", "Ghi dữ liệu thành công", "");
+                        }
+                        else if (chData == false) {
+                            SetAlert("warning", "Ghi dữ liệu thất bại", "");
+                        }
+                    }
+                });
+
+                Total.innerHTML = Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                var TotalCart = document.getElementById("txtCartTotal").innerHTML;
+                var TotalValue = 0;
+                for (var i = 0; i < parseInt(TotalCart); i++) {
+                    GiaTri = document.getElementById("txtCost_" + (i + 1).toString()).innerHTML.replaceAll(",", "");
+                    TotalValue = TotalValue + parseInt(GiaTri);
+                }
+                var TotalMoney = document.getElementById("txtTotalMoney");
+                TotalMoney.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+
+            }
+
+            function Cost(id) {
+                var idProduct = id.replace("txtQuantity_", "");
+                var soluong = document.getElementById("txtQuantity_" + idProduct).value;
+                var dongia = document.getElementById("txtPrice_" + idProduct).innerHTML.replaceAll(",", "");
+                var total = document.getElementById("txtCost_" + idProduct);
+                var Cost = parseInt(dongia) * soluong;
+                total.innerHTML = Cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                Total();
+                var ID = document.getElementById("txtID_" + idProduct).innerHTML;
+                var jsData = "{ID: '" + ID + "', Quantity: '" + soluong + "'}";
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/UpdateProduct",
+                    contentType: "application/json; charset=utf-8",
+                    data: jsData,
+                    dataType: "json",
+                    success: function (chData) {
+                        if (chData == true) {
+                            alert("success", "Ghi dữ liệu thành công", "");
+                        }
+                        else if (chData == false) {
+                            alert("warning", "Ghi dữ liệu thất bại", "");
+                        }
+                    }
+                });
+            }
+
+            function Total() {
+                var TotalCart = document.getElementById("txtCartTotal").innerHTML;
+                var TotalValue = 0;
+                for (var i = 0; i < parseInt(TotalCart); i++) {
+                    GiaTri = document.getElementById("txtCost_" + (i + 1).toString()).innerHTML.replaceAll(",", "");
+                    TotalValue = TotalValue + parseInt(GiaTri);
+                }
+                var TotalMoney = document.getElementById("txtTotalMoney");
+                TotalMoney.innerHTML = TotalValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+
+            function ThanhToan() {
+                var arr = [];
+                var TotalCart = document.getElementById("txtCartTotal").innerHTML;
+                for (var i = 0; i < parseInt(TotalCart); i++) {
+                    var idCout = i + 1;
+                    var jsObject = { Id: "id", Name: "name", Price: "price", Quantity: "quantity" };
+                    jsObject.Id = (i + 1).toString();
+                    jsObject.Name = document.getElementById("txtName_" + idCout).innerHTML;
+                    jsObject.Price = document.getElementById("txtPrice_" + idCout).innerHTML;
+                    jsObject.Quantity = document.getElementById("txtQuantity_" + idCout).value;
+                    arr.push(jsObject);
+                }
+                console.log(arr);
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/CheckOutCart",
+                    contentType: "application/json; charset=utf-8",
+                    data: jsData,
+                    dataType: "json",
+                    success: function (chData) {
+                        if (chData == true) {
+                            alert("success", "Ghi dữ liệu thành công", "");
+                        }
+                        else if (chData == false) {
+                            alert("warning", "Ghi dữ liệu thất bại", "");
+                        }
+                    }
+                });
+            }
+        </script>*@
+}

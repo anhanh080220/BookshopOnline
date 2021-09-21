@@ -1,0 +1,264 @@
+﻿@model List<WebsiteBanHangOnline.Models.ProductCategory>
+<div class="col-lg-3 col-md-4 col-12">
+    <div class="side-block px-20 py-20 bg-white cust-accordion shop-page">
+        <div class="widget clearfix">
+            <h4 class="pb-15 mb-15 bb-1">Categories</h4>
+            <div class="tab-wrapper v1">
+                <div class="list">
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            if (item.ParentID == -1 && item.MetaDecriptions != "3" && item.MetaDecriptions != "1")
+                            {
+                                <div class="item">
+                                    <div class="tab-btn">
+                                        <a href="/san-pham/@item.MetaTitle-@item.ID">@item.Name<em class="mdi mdi-plus"></em></a>
+                                    </div>
+                                    <div class="tab-content">
+                                        <ul class="list list-arrow">
+                                            @foreach (var item2 in Model)
+                                            {
+                                                if (item2.ParentID == item.ID)
+                                                {
+                                                    <li><a href="/san-pham/@item2.MetaTitle-@item2.ID">@item2.Name</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                            else if (item.ParentID == -1 && item.MetaDecriptions == "3")
+                            {
+                                <div class="item megamenu">
+                                    <div class="tab-btn">
+                                        <a href="/san-pham/@item.MetaTitle-@item.ID">@item.Name<em class="mdi mdi-plus"></em></a>
+                                    </div>
+                                    <div class="tab-content">
+                                        <ul class="list list-arrow ">
+                                            @foreach (var item2 in Model)
+                                            {
+                                                if (item2.ParentID == item.ID)
+                                                {
+                                                    <li>
+                                                        <a href="/san-pham/@item2.MetaTitle-@item2.ID">@item2.Name</a>
+                                                        <ul class="list list-arrow">
+                                                            @foreach (var item3 in Model)
+                                                            {
+                                                                if (item3.ParentID == item2.ID)
+                                                                {
+                                                                    <li><a href="/san-pham/@item3.MetaTitle-@item3.ID">@item3.Name</a></li>
+                                                                }
+                                                            }
+                                                        </ul>
+                                                    </li>
+                                                }
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                            else if (item.ParentID == -1 && item.MetaDecriptions == "1")
+                            {
+                                <div class="item">
+                                    <div class="no-tab-btn">
+                                        <a href="/san-pham/@item.MetaTitle-@item.ID">@item.Name</a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+        @*<div class="widget clearfix">
+            <h4 class="pb-15 mb-15 bb-1">Stock Wise</h4>
+            <div class="media-list media-list-divided">
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Biology Course </span>
+                    <span class="mx-0 badge badge-secondary-light">125</span>
+                </a>
+
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Contemporary Art</span>
+                    <span class="mx-0 badge badge-primary-light">124</span>
+                </a>
+
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Elizabethan Theater</span>
+                    <span class="mx-0 badge badge-info-light">425</span>
+                </a>
+
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Geometry Course</span>
+                    <span class="mx-0 badge badge-success-light">321</span>
+                </a>
+
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Informatic Course</span>
+                    <span class="mx-0 badge badge-danger-light">159</span>
+                </a>
+
+                <a class="px-0 media media-single" href="#">
+                    <span class="title ml-0">Live Drawing</span>
+                    <span class="mx-0 badge badge-warning-light">452</span>
+                </a>
+            </div>
+        </div>
+        <div class="widget clearfix">
+            <h4 class="pb-15 mb-25 bb-1">Size</h4>
+            <div class="widget-tags">
+                <ul class="list-unstyled">
+                    <li><a href="#">XS</a></li>
+                    <li><a href="#">SM</a></li>
+                    <li><a href="#">M</a></li>
+                    <li><a href="#">L</a></li>
+                    <li><a href="#">XL</a></li>
+                    <li><a href="#">XXL</a></li>
+                </ul>
+            </div>
+        </div>*@
+        <div class="widget">
+            <h4 class="pb-15 mb-25 bb-1">New Arrival</h4>
+            <div class="shop-post clearfix">
+                <div class="shop-post-image">
+                    <img class="img-fluid bg-primary-light" src="~/Content/images/front-end-img/product/product-1.png" alt="">
+                </div>
+                <div class="shop-post-info">
+                    <a href="#">Product Name</a>
+                    <ul class="cours-star">
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                    </ul>
+                    <span>$45.00</span>
+                </div>
+            </div>
+            <div class="shop-post clearfix">
+                <div class="shop-post-image">
+                    <img class="img-fluid bg-primary-light" src="~/Content/images/front-end-img/product/product-2.png" alt="">
+                </div>
+                <div class="shop-post-info">
+                    <a href="#">Product Name</a>
+                    <ul class="cours-star">
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                    </ul>
+                    <span>$45.00</span>
+                </div>
+            </div>
+            <div class="shop-post clearfix">
+                <div class="shop-post-image">
+                    <img class="img-fluid bg-primary-light" src="~/Content/images/front-end-img/product/product-3.png" alt="">
+                </div>
+                <div class="shop-post-info">
+                    <a href="#">Product Name</a>
+                    <ul class="cours-star">
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                        <li class="active"><i class="fa fa-star"></i></li>
+                    </ul>
+                    <span>$45.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="widget">
+            <h4 class="pb-15 mb-25 bb-1">Testimonials</h4>
+            <div class="owl-carousel" data-nav-dots="false" data-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-xx-items="1">
+                <div class="item">
+                    <div class="testimonial-widget">
+                        <div class="testimonial-content">
+                            <p>In odio metus, porta vitae neque vitae, faucibus viverra orci. Quisque in lorem aliquam, ullamcorper turpis a, aliquam dui. In accumsan aliquam viverra.</p>
+                        </div>
+                        <div class="testimonial-info mt-20">
+                            <div class="testimonial-avtar">
+                                <img class="img-fluid" src="~/Content/images/front-end-img/avatar/1.jpg" alt="">
+                            </div>
+                            <div class="testimonial-name">
+                                <strong>Johen Doe</strong>
+                                <span>Project Manager</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="testimonial-widget">
+                        <div class="testimonial-content">
+                            <p>Morbi condimentum leo eu lacinia accumsan. Phasellus cursus rhoncus elit, mattis convallis sapien efficitur non phasellus et erat sapien phasellus. </p>
+                        </div>
+                        <div class="testimonial-info mt-20">
+                            <div class="testimonial-avtar">
+                                <img class="img-fluid" src="~/Content/images/front-end-img/avatar/2.jpg" alt="">
+                            </div>
+                            <div class="testimonial-name">
+                                <strong>Johen Doe</strong>
+                                <span>Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="testimonial-widget">
+                        <div class="testimonial-content">
+                            <p>In odio metus, porta vitae neque vitae, faucibus viverra orci. Quisque in lorem aliquam, ullamcorper turpis a, aliquam dui. In accumsan aliquam viverra.</p>
+                        </div>
+                        <div class="testimonial-info mt-20">
+                            <div class="testimonial-avtar">
+                                <img class="img-fluid" src="~/Content/images/front-end-img/avatar/3.jpg" alt="">
+                            </div>
+                            <div class="testimonial-name">
+                                <strong>Johen Doe</strong>
+
+                                <span>Project Manager</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="testimonial-widget">
+                        <div class="testimonial-content">
+                            <p>Morbi condimentum leo eu lacinia accumsan. Phasellus cursus rhoncus elit, mattis convallis sapien efficitur non phasellus et erat sapien phasellus. </p>
+                        </div>
+                        <div class="testimonial-info mt-20">
+                            <div class="testimonial-avtar">
+                                <img class="img-fluid" src="~/Content/images/front-end-img/avatar/4.jpg" alt="">
+                            </div>
+                            <div class="testimonial-name">
+                                <strong>Johen Doe</strong>
+                                <span>Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget mb-5">
+            <h4 class="pb-15 mb-25 bb-1">Newsletter</h4>
+            <div class="widget-newsletter">
+                <div class="newsletter-icon">
+                    <i class="fa fa-envelope-o"></i>
+                </div>
+                <div class="newsletter-content">
+                    <i>Fusce tincidunt, metus at dignissim fringilla, lorem velit posuere mi, sed pretium turpis leo ac metus. Aenean sit amet sapien eget eros </i>
+                </div>
+                <div class="newsletter-form mt-20">
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Name">
+                    </div>
+                    <a class="btn btn-primary btn-block" href="#">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

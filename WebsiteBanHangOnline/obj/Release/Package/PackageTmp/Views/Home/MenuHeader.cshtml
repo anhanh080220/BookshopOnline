@@ -1,0 +1,136 @@
+﻿@model List<WebsiteBanHangOnline.Models.Menu_Web>
+@{
+    int i = 0;
+    var model = (List<WebsiteBanHangOnline.Models.CartItem>)Session["Cart"];
+
+}
+<nav hidden class="nav-white nav-transparent">
+    <div class="nav-header">
+        <a href="index.html" class="brand">
+            <img src="~/Content/images/logo-light-text2.png" alt="" />
+        </a>
+        <button class="toggle-bar">
+            <span class="ti-menu"></span>
+        </button>
+    </div>
+    <ul class="menu">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                if (item.ParentID == -1 && item.Level != 3)
+                {
+                    <li class="dropdown">
+                        <a href="#">@item.Name</a>
+                        <ul class="dropdown-menu">
+                            @foreach (var item2 in Model)
+                            {
+                                if (item2.ParentID == item.ID)
+                                {
+                                    <li><a href="index.html">@item2.Name</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+                else if (item.ParentID == -1 && item.Level == 3)
+                {
+                    <li class="megamenu">
+                        <a href="#">@item.Name</a>
+                        <div class="megamenu-content">
+                            <div class="row">
+                                @foreach (var item2 in Model)
+                                {
+                                    if (item2.ParentID == item.ID)
+                                    {
+                                        <div class="col-lg-3 col-12">
+                                            <ul class="list-group">
+                                                <li><h4 class="menu-title">@item2.Name</h4></li>
+                                                @foreach (var item3 in Model)
+                                                {
+                                                    if (item3.ParentID == item2.ID)
+                                                    {
+                                                        <li><a href="faqs.html"><i class="ti-arrow-circle-right mr-10"></i>@item3.Name</a></li>
+                                                    }
+                                                }
+
+                                                @*<li><a href="inovice.html"><i class="ti-arrow-circle-right mr-10"></i>Invoice</a></li>
+                                                    <li><a href="membership.html"><i class="ti-arrow-circle-right mr-10"></i>Membership</a></li>
+                                                    <li><a href="mydashboard.html"><i class="ti-arrow-circle-right mr-10"></i>My Dashboard</a></li>
+                                                    <li><a href="staff.html"><i class="ti-arrow-circle-right mr-10"></i>Staff</a></li>
+                                                    <li><a href="testimonial.html"><i class="ti-arrow-circle-right mr-10"></i>Testimonial</a></li>
+                                                    <li><a href="typography.html"><i class="ti-arrow-circle-right mr-10"></i>Typography</a></li>
+                                                    <li><a href="user_list.html"><i class="ti-arrow-circle-right mr-10"></i>User List</a></li>
+                                                    <li><a href="userprofile.html"><i class="ti-arrow-circle-right mr-10"></i>User Profile</a></li>
+                                                    <li><a href="about.html"><i class="ti-arrow-circle-right mr-10"></i>About</a></li>
+                                                    <li><a href="contact_us.html"><i class="ti-arrow-circle-right mr-10"></i>Contact</a></li>*@
+                                            </ul>
+                                        </div>
+                                        i++;
+                                    }
+                                }
+                                <div class="col-md-3 col-12 d-none d-lg-block">
+                                    @*<img src="~/Content/images/front-end-img/adv.jpg" class="img-fluid" alt="" />*@
+                                    <img src="~/Content/images/front-end-img/cat-gal-large.png" class="img-fluid" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        }
+        <li>
+            <a href="about.html">About</a>
+        </li>
+
+    </ul>
+    <ul class="attributes">
+        @*<li class="d-md-block d-none"><a href="#" class="px-10 pt-15 pb-10"><div class="btn btn-primary py-5">Enroll Now</div></a></li>*@
+        <li><a href="#" class="toggle-search-fullscreen"><span class="ti-search"></span></a></li>
+        <li class="megamenu" data-width="270">
+            <a href="#"><span class="ti-shopping-cart"></span></a>
+            <div class="megamenu-content megamenu-cart">
+                <!-- Start Shopping Cart -->
+                <div class="cart-header">
+                    <div class="total-price">
+                        Total:  <span>VND @(Session["TotalCost"] != null ? @Session["TotalCost"] : 0) </span>
+                    </div>
+                    <i class="ti-shopping-cart"></i>
+                    <span class="badge" id="txtTotal_Product">@(Session["Total"] != null ? @Session["Total"] : 0)</span>
+                    <strong></strong>
+                </div>
+                <div class="cart-body" >
+                    <ul id="cart-body-2">
+                        @if (model != null)
+                        {
+                            foreach (var item in model)
+                            {
+                                <li>
+                                    <img src="@item.ImageUrl" alt="">
+                                    <h5 class="title">@item.Name </h5>
+                                    <span class="qty">Quantity: @item.Quantity</span>
+                                    <span class="price-st">VND <br /> @item.PriceSale.ToString("N0")</span>
+                                    <a href="shop-cart" class="link"></a>
+                                </li>
+
+                            }
+                        }
+
+                    </ul>
+                </div>
+                <div class="cart-footer">
+                    <a href="#">Checkout</a>
+                </div>
+                <!-- End Shopping Cart -->
+            </div>
+        </li>
+    </ul>
+
+    <div class="wrap-search-fullscreen">
+        <div class="container">
+            <button class="close-search"><span class="ti-close"></span></button>
+            <input type="text" placeholder="Search..." />
+        </div>
+    </div>
+</nav>
+

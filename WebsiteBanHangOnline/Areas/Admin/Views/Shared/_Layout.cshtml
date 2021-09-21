@@ -1,0 +1,672 @@
+﻿
+@{ 
+    var user = Session[WebsiteBanHangOnline.Models.CommonConstants.ACCOUNT_SESSION] as WebsiteBanHangOnline.Models.User;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from coderthemes.com/uplon/layouts/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 Jul 2021 17:21:16 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>Dashboard | Uplon - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Areas/Admin/Content/assets/images/favicon.ico">
+    <!-- Table datatable css -->
+    <link href="~/Areas/Admin/Content/assets/libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Areas/Admin/Content/assets/libs/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Content/assets/libs/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Content/assets/libs/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Content/assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Areas/Admin/Content/assets/libs/custombox/custombox.min.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Content/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <!-- App css -->
+    <link href="~/Areas/Admin/Content/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet" />
+    <link href="~/Areas/Admin/Content/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/Content/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet" />
+    <link href="~/Areas/Admin/Content/assets/libs/toastr/toastr.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div id="wrapper">
+
+
+        <!-- Topbar Start -->
+        <div class="navbar-custom">
+            <ul class="list-unstyled topnav-menu float-right mb-0">
+
+                <li class="dropdown notification-list dropdown d-none d-lg-inline-block ml-2">
+                    <a class="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <img src="~/Areas/Admin/Content/assets/images/flags/us.jpg" alt="lang-image" height="12">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <img src="~/Areas/Admin/Content/assets/images/flags/germany.jpg" alt="lang-image" class="mr-1" height="12"> <span class="align-middle">German</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <img src="~/Areas/Admin/Content/assets/images/flags/italy.jpg" alt="lang-image" class="mr-1" height="12"> <span class="align-middle">Italian</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <img src="~/Areas/Admin/Content/assets/images/flags/spain.jpg" alt="lang-image" class="mr-1" height="12"> <span class="align-middle">Spanish</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <img src="~/Areas/Admin/Content/assets/images/flags/russia.jpg" alt="lang-image" class="mr-1" height="12"> <span class="align-middle">Russian</span>
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="mdi mdi-bell-outline noti-icon"></i>
+                        <span class="noti-icon-badge"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+
+                        <!-- item-->
+                        <div class="dropdown-item noti-title">
+                            <h5 class="font-16 text-white m-0">
+                                <span class="float-right">
+                                    <a href="#" class="text-white">
+                                        <small>Clear All</small>
+                                    </a>
+                                </span>Notification
+                            </h5>
+                        </div>
+
+                        <div class="slimscroll noti-scroll">
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-success">
+                                    <i class="mdi mdi-settings-outline"></i>
+                                </div>
+                                <p class="notify-details">
+                                    New settings
+                                    <small class="text-muted">There are new settings available</small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-info">
+                                    <i class="mdi mdi-bell-outline"></i>
+                                </div>
+                                <p class="notify-details">
+                                    Updates
+                                    <small class="text-muted">There are 2 new updates available</small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-danger">
+                                    <i class="mdi mdi-account-plus"></i>
+                                </div>
+                                <p class="notify-details">
+                                    New user
+                                    <small class="text-muted">You have 10 unread messages</small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-info">
+                                    <i class="mdi mdi-comment-account-outline"></i>
+                                </div>
+                                <p class="notify-details">
+                                    Caleb Flakelar commented on Admin
+                                    <small class="text-muted">4 days ago</small>
+                                </p>
+                            </a>
+
+                            <!-- item-->
+                            <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <div class="notify-icon bg-secondary">
+                                    <i class="mdi mdi-heart"></i>
+                                </div>
+                                <p class="notify-details">
+                                    Carlos Crouch liked
+                                    <b>Admin</b>
+                                    <small class="text-muted">13 days ago</small>
+                                </p>
+                            </a>
+                        </div>
+
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item text-primary notify-item notify-all">
+                            View all
+                            <i class="fi-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle  waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="mdi mdi-email-outline noti-icon"></i>
+                        <span class="noti-icon-badge"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
+
+                        <!-- item-->
+                        <div class="dropdown-item noti-title">
+                            <h5 class="font-16 text-white m-0">
+                                <span class="float-right">
+                                    <a href="#" class="text-white">
+                                        <small>Clear All</small>
+                                    </a>
+                                </span>Messages
+                            </h5>
+                        </div>
+
+                        <div class="slimscroll noti-scroll">
+
+                            <div class="inbox-widget">
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="~/Areas/Admin/Content/assets/images/users/avatar-1.jpg" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Chadengle</p>
+                                        <p class="inbox-item-text text-truncate">Hey! there I'm available...</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="~/Areas/Admin/Content/assets/images/users/avatar-2.jpg" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Tomaslau</p>
+                                        <p class="inbox-item-text text-truncate">I've finished it! See you so...</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="~/Areas/Admin/Content/assets/images/users/avatar-3.jpg" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Stillnotdavid</p>
+                                        <p class="inbox-item-text text-truncate">This theme is awesome!</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="~/Areas/Admin/Content/assets/images/users/avatar-4.jpg" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Kurafire</p>
+                                        <p class="inbox-item-text text-truncate">Nice to meet you</p>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="inbox-item">
+                                        <div class="inbox-item-img"><img src="~/Areas/Admin/Content/assets/images/users/avatar-5.jpg" class="rounded-circle" alt=""></div>
+                                        <p class="inbox-item-author">Shahedk</p>
+                                        <p class="inbox-item-text text-truncate">Hey! there I'm available...</p>
+
+                                    </div>
+                                </a>
+                            </div> <!-- end inbox-widget -->
+
+                        </div>
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item text-primary notify-item notify-all">
+                            View all
+                            <i class="fi-arrow-right"></i>
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="dropdown notification-list">
+                    <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <img src="~/Areas/Admin/Content/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                        <span class="d-none d-sm-inline-block ml-1 font-weight-medium">Alex M.</span>
+                        <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <!-- item-->
+                        <div class="dropdown-header noti-title">
+                            <h6 class="text-overflow text-white m-0">Welcome !</h6>
+                        </div>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-account-outline"></i>
+                            <span id="txtUserName">@user.Name</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-settings-outline"></i>
+                            <span>Settings</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item">
+                            <i class="mdi mdi-lock-outline"></i>
+                            <span>Lock Screen</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- item-->
+                        <a href="@Url.Action("Logout", "Home",null)" class="dropdown-item notify-item">
+                            <i class="mdi mdi-logout-variant"></i>
+                            <span></span>
+                        </a>
+
+                    </div>
+                </li>
+
+                <li class="dropdown notification-list">
+                    <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">
+                        <i class="mdi mdi-settings-outline noti-icon"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+            <!-- LOGO -->
+            <div class="logo-box">
+                <a href="index.html" class="logo text-center logo-dark">
+                    <span class="logo-lg">
+                        <img src="~/Areas/Admin/Content/assets/images/logo.png" alt="" height="22">
+                        <!-- <span class="logo-lg-text-dark">Uplon</span> -->
+                    </span>
+                    <span class="logo-sm">
+                        <!-- <span class="logo-lg-text-dark">U</span> -->
+                        <img src="~/Areas/Admin/Content/assets/images/logo-sm.png" alt="" height="24">
+                    </span>
+                </a>
+
+                <a href="index.html" class="logo text-center logo-light">
+                    <span class="logo-lg">
+                        <img src="~/Areas/Admin/Content/assets/images/logo-light.png" alt="" height="22">
+                        <!-- <span class="logo-lg-text-dark">Uplon</span> -->
+                    </span>
+                    <span class="logo-sm">
+                        <!-- <span class="logo-lg-text-dark">U</span> -->
+                        <img src="~/Areas/Admin/Content/assets/images/logo-sm-light.png" alt="" height="24">
+                    </span>
+                </a>
+            </div>
+
+            <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+                <li>
+                    <button class="button-menu-mobile waves-effect waves-light">
+                        <i class="mdi mdi-menu"></i>
+                    </button>
+                </li>
+
+                <li class="d-none d-sm-block">
+                    <form class="app-search">
+                        <div class="app-search-box">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <button class="btn" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+
+                <li class="dropdown dropdown-mega d-none d-lg-block">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        Mega Menu
+                        <i class="mdi mdi-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-megamenu p-0">
+                        <div class="row">
+                            <div class="col-sm-5">
+
+                                <div class="p-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-16 mt-0"><i class="mdi mdi-toolbox-outline mr-1"></i> UI Components</h5>
+                                            <ul class="list-unstyled megamenu-list">
+                                                <li>
+                                                    <a href="javascript:void(0);">Widgets</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Calendar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Range Sliders</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Sweet Alerts</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Ratings</a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="javascript:void(0);">Treeview Page</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Tour Page</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h5 class="font-16 mt-0"><i class="mdi mdi-flip-horizontal mr-1"></i> Layouts</h5>
+                                            <ul class="list-unstyled megamenu-list">
+                                                <li>
+                                                    <a href="javascript:void(0);">Dark Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Small Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Sidebar Collapsed</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Unsticky Layout</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Boxed Layout</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);">Topbar Light</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="p-4">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="text-center">
+                                                        <div>
+                                                            <i class="fab fa-bootstrap text-purple h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Bootstrap</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="text-center mt-4 mt-md-0">
+                                                        <div>
+                                                            <i class="fab fa-npm text-danger h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Npm</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="text-center mt-4 mt-md-0">
+                                                        <div>
+                                                            <i class="fab fa-sass text-pink h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Sass support</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="text-center mt-4">
+                                                        <div>
+                                                            <i class="fas fa-tablet-alt text-dark h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Responsive</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="text-center mt-4">
+                                                        <div>
+                                                            <i class="fab fa-gulp text-primary h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Gulp Support</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="text-center mt-4">
+                                                        <div>
+                                                            <i class="far fa-file-code text-warning h2 mb-0"></i>
+                                                        </div>
+                                                        <h5 class="font-16">Free Landing</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="text-center">
+                                            <div class="p-4">
+                                                <h4 class="mt-0">Special Discount Sale!</h4>
+                                                <h5 class="mt-4">Save up to <span class="text-primary">60%</span> off.</h5>
+                                                <p class="text-muted">Get free updates lifetime</p>
+                                                <a href="https://1.envato.market/XY7j5" target="_blank" class="btn btn-primary btn-rounded">Download Now</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- end Topbar -->
+        <!-- ========== Left Sidebar Start ========== -->
+        @RenderPage("_Left_side_menu.cshtml")
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-title-box">
+                                @*<div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Uplon</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">UI Kit</a></li>
+                                            <li class="breadcrumb-item active">Modals</li>
+                                        </ol>
+                                    </div>*@
+                                <h4 class="page-title" id="txtTitle">@RenderSection("header", true)</h4>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <!--Alert-->
+                    @if (TempData["AlertMessage"] != null)
+                    {
+                        <div id="AlertBox" class="alert @TempData["AlertType"] hide">
+                            @TempData["AlertMessage"]
+                        </div>
+                    }
+
+                    @RenderBody()
+
+                </div> <!-- end container-fluid -->
+
+            </div> <!-- end content -->
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            2018 - 2021 &copy; ShopOnline by <a href="#">AnhCoder</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+
+
+    <!-- END wrapper -->
+    <!-- Right Sidebar -->
+    <div class="right-bar">
+        <div class="rightbar-title">
+            <a href="javascript:void(0);" class="right-bar-toggle float-right">
+                <i class="mdi mdi-close"></i>
+            </a>
+            <h4 class="font-18 m-0 text-white">Theme Customizer</h4>
+        </div>
+        <div class="slimscroll-menu">
+
+            <div class="p-4">
+                <div class="alert alert-warning" role="alert">
+                    <strong>Customize </strong> the overall color scheme, layout, etc.
+                </div>
+                <div class="mb-2">
+                    <img src="~/Areas/Admin/Content/assets/images/layouts/light.png" class="img-fluid img-thumbnail" alt="">
+                </div>
+                <div class="custom-control custom-switch mb-3">
+                    <input type="checkbox" class="custom-control-input theme-choice" id="light-mode-switch" checked />
+                    <label class="custom-control-label" for="light-mode-switch">Light Mode</label>
+                </div>
+
+                <div class="mb-2">
+                    <img src="~/Areas/Admin/Content/assets/images/layouts/dark.png" class="img-fluid img-thumbnail" alt="">
+                </div>
+                <div class="custom-control custom-switch mb-3">
+                    <input type="checkbox" class="custom-control-input theme-choice" id="dark-mode-switch" data-bsStyle="~/Areas/Admin/Content/assets/css/bootstrap-dark.min.css"
+                           data-appStyle="~/Areas/Admin/Content/assets/css/app-dark.min.css" />
+                    <label class="custom-control-label" for="dark-mode-switch">Dark Mode</label>
+                </div>
+
+                <div class="mb-2">
+                    <img src="~/Areas/Admin/Content/assets/images/layouts/rtl.png" class="img-fluid img-thumbnail" alt="">
+                </div>
+                <div class="custom-control custom-switch mb-5">
+                    <input type="checkbox" class="custom-control-input theme-choice" id="rtl-mode-switch" data-appStyle="~/Areas/Admin/Content/assets/css/app-rtl.min.css" />
+                    <label class="custom-control-label" for="rtl-mode-switch">RTL Mode</label>
+                </div>
+
+                <a href="https://1.envato.market/XY7j5" class="btn btn-danger btn-block mt-3" target="_blank"><i class="mdi mdi-download mr-1"></i> Download Now</a>
+            </div>
+        </div> <!-- end slimscroll-menu-->
+    </div>
+    <!-- /Right-bar -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    @*<a href="javascript:void(0);" class="right-bar-toggle demos-show-btn">
+            <i class="mdi mdi-settings-outline mdi-spin"></i> &nbsp;Choose Demos
+        </a>*@
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/js/pages/toastr.init.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/toastr/toastr.min.js"></script>
+    <!-- Vendor js -->
+    <script src="~/Areas/Admin/Content/assets/js/vendor.min.js"></script>
+
+    <!--Morris Chart-->
+    <script src="~/Areas/Admin/Content/assets/libs/morris-js/morris.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/raphael/raphael.min.js"></script>
+
+    <!-- Dashboard init js-->
+    <script src="~/Areas/Admin/Content/assets/js/pages/dashboard.init.js"></script>
+    <!-- Datatable plugin js -->
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables1.buttons.min.js"></script>
+    @*<script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables.buttons.min.js"></script>*@
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/buttons.bootstrap4.min.js"></script>
+
+    <script src="~/Areas/Admin/Content/assets/libs/jszip/jszip1.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/pdfmake/pdfmake1.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/pdfmake/vfs_fonts1.js"></script>
+
+    @*<script src="~/Areas/Admin/Content/assets/libs/datatables/buttons.html5.min.js"></script>*@
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/buttons1.html5.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/buttons.print.min.js"></script>
+
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/datatables/dataTables.select.min.js"></script>
+
+    <!-- Datatables init -->
+    <script src="~/Areas/Admin/Content/assets/js/pages/datatables.init.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Areas/Admin/Content/assets/libs/dropify/dropify.min.js"></script>
+
+    <!-- Init js-->
+    <script src="~/Areas/Admin/Content/assets/js/pages/form-fileuploads.init.js"></script>
+    <!-- custombox js -->
+    <script src="~/Areas/Admin/Content/assets/libs/custombox/custombox.min.js"></script>
+    <!-- App js -->
+    <script src="~/Areas/Admin/Content/assets/js/app.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/sweetalert2/sweetalert.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/libs/sweetalert2/sweetalert2@11.js"></script>
+    @*<script src="~/Areas/Admin/Content/assets/libs/sweetalert2/sweetalert2.min.js"></script>*@
+    <script src="~/Areas/Admin/Content/assets/js/pages/sweet-alerts.init.js"></script>
+    <!-- CKEditor-CKFinder -->
+    <script src="~/Areas/Admin/Content/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/Content/ckfinder/ckfinder.js"></script>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            var name = document.getElementById("txtUserName").innerHTML;
+            var Title = document.getElementById("txtTitle").innerHTML.trim();
+            if (Title == "Trang chủ") {
+                Swal.fire({
+                    title: name  ,
+                    html: '<strong>You are welcome !</strong> </br> ' ,
+                    imageUrl: '/Areas/Admin/Content/assets/images/anh-welcome-1.jpg',
+                    imageHeight: 250,
+                    imageWidth: 450,
+                    width: 600,
+                    padding: '3em',
+                    background: '#fff url(/Areas/Admin/Content/assets/images/tree.png)',
+                    backdrop: `
+                                rgba(0,0,123,0.4)
+                                url("/Areas/Admin/Content/assets/images/nyan-cat.gif")
+                                left top
+                                no-repeat
+                              `
+                })
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(1000).slideUp(500);
+        })
+    </script>
+    @RenderSection("JsFooter", required: false)
+
+</body>
+
+<!-- Mirrored from coderthemes.com/uplon/layouts/vertical/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 20 Jul 2021 17:21:37 GMT -->
+</html>

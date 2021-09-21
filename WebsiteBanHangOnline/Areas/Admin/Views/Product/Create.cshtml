@@ -1,0 +1,137 @@
+﻿@model WebsiteBanHangOnline.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var lstTheLoai = (List<WebsiteBanHangOnline.Models.ProductCategory>)ViewBag.category;
+}
+@section header{
+    Thêm mới sản phẩm
+}
+
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body table-border-style">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h4 class="card-title">Thêm mới thông tin sản phẩm</h4>
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="row p-t-0">
+                                <div class="col-md-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Ảnh:</label>
+                                        <input type="file" name="filePost" class="dropify" data-default-file="/Areas/Admin/Content/assets/images/small/img-1.jpg" data-allowed-file-extensions='["png", "jpg"]' />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Tên sản phẩm: <span class="label-required">*</span></label>
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Thể loại: <span class="label-required">*</span></label>
+                                        <select id="inputTacGia" class="form-control" name="cboTheLoai">
+                                            <option value="-1" selected>--Chọn danh mục--</option>
+                                            @if (lstTheLoai != null)
+                                            {
+                                                foreach (var item in lstTheLoai)
+                                                {
+                                                    if (item.ParentID != -1)
+                                                    {
+                                                        <option value="@item.ID">@item.Name</option>
+                                                    }
+
+                                                }
+                                            }
+
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Mã CODE: <span class="label-required">*</span></label>
+                                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Giá tiền: <span class="label-required">*</span></label>
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "Number" } })
+                                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Giá mới: <span class="label-required">*</span></label>
+                                        @Html.EditorFor(model => model.PromotionPrice, new { htmlAttributes = new { @class = "form-control", @type = "Number" } })
+                                        @Html.ValidationMessageFor(model => model.PromotionPrice, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Top hot: <span class="label-required">*</span></label>
+                                        <div class="radio-list" style="padding-left:10px;">
+                                            <label class="custom-control custom-radio">
+                                                <input type="radio" id="customRadio1" name="groupSex" checked="checked" class="custom-control-input" value="1">
+                                                <label class="custom-control-label" for="customRadio1">Active</label>
+                                            </label>
+                                            <label class="custom-control custom-radio">
+                                                <input type="radio" id="customRadio2" name="groupSex" class="custom-control-input" value="0">
+                                                <label class="custom-control-label" for="customRadio2">Block</label>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Mô tả: <span class="label-required">*</span></label><br />
+                                        @Html.TextAreaFor(model => model.Description, 4, 112, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="submit" value="Ghi dữ liệu" class="btn btn-primary btn-sm" />
+                                    @Html.ActionLink("Quay lại", "Index")
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

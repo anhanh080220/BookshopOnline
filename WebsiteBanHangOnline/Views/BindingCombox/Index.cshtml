@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Index", "BindingCombox", FormMethod.Post))
+{
+    <section class="py-50" data-aos="fade-up">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Danh mục</h3>
+                    @Html.DropDownList("cboDanhMuc", new SelectList(Enumerable.Empty<SelectList>()), new { @class = "form-control" })
+                    <br />
+                    <h3>Sản phẩm</h3>
+                    @Html.DropDownList("cboSanPham", new SelectList(Enumerable.Empty<SelectList>()), new { @class = "form-control" })
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+}
+
+@section JSfooter{
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetComBoDanhMuc", "BindingCombox")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $(result).each(function () {
+                 
+                    $("#cboDanhMuc").append($("<option></option>").val(this.Value).html(this.Text));
+                })
+            },
+           
+        });
+        });
+        (document.getElementById("cboDanhMuc")).addEventListener('change', function (e) {
+            $("#cboSanPham").empty();
+            var jsData = "{'idDanhMuc': '" + this.value + "'}";
+            alert(jsData);
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetComBoSanPham", "BindingCombox")",
+            contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             data: jsData,
+            success: function (result) {
+                $(result).each(function () {
+                 
+                    $("#cboSanPham").append($("<option></option>").val(this.Value).html(this.Text));
+                })
+            },
+           
+        });
+        });
+    </script>
+
+}
+

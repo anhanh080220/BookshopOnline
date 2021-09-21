@@ -1,0 +1,108 @@
+﻿@model List<WebsiteBanHangOnline.Models.tblAccountUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section header{
+    Danh sách tài khoản
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create",null,new {@class = "btn btn-primary btn-rounded waves-effect waves-light" })
+</p>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <h4 class="header-title">Danh sách tài khoản</h4>
+
+            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên tài khoản
+                        </th>
+                        <th>
+                            Mật khẩu
+                        </th>
+                        <th>
+                            Tên người dùng
+                        </th>
+                        <th>
+                            Địa chỉ
+                        </th>
+                        <th>
+                           Email
+                        </th>
+                        <th>
+                            SĐT
+                        </th>
+                        <th>
+                            Ngày tạo
+                        </th>
+                        <th>
+                            Người tạo
+                        </th>
+                        <th>
+                            Ngày sửa
+                        </th>
+                        <th>
+                            Người sửa
+                        </th>
+                        <th>
+                            Trạng thái
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccountName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedUser)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifiedDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifiedUser)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ID },new { @class = "btn btn-primary btn-rounded waves-effect waves-light" }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-primary btn-rounded waves-effect waves-light" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- end row -->
